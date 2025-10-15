@@ -31,6 +31,7 @@ def delete_user(user_id):
     conn.commit()
     conn.close()
 
+st.title("Kelsea's User Management App")
 create_table()
 
 menu = ["Add User", "View Users", "Delete User"]
@@ -65,3 +66,4 @@ elif choice == "Delete User":
     if st.button("Delete"):
         delete_user(user_id)
         st.warning(f"User {user_id} deleted!")
+
