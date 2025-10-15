@@ -31,7 +31,8 @@ def delete_user(user_id):
     conn.commit()
     conn.close()
 
-create_table() 
+create_table()
+
 menu = ["Add User", "View Users", "Delete User"]
 choice = st.sidebar.selectbox("Menu", menu)
 
@@ -41,14 +42,17 @@ if choice == "Add User":
     email = st.text_input("Email")
     age = st.number_input("Age", 0, 120)
     
-if st.button("Submit"):
-    add_user(name, email, age)
-    st.success(f"{name} added successfully!")
+    if st.button("Submit"):
+        if name and email:
+            add_user(name, email, age)
+            st.success(f"{name} added successfully!")
+        else:
+            st.warning("Please fill in all fields.")
 
 elif choice == "View Users":
     st.subheader("View All Users")
     users = view_users()
-    df = pd.DataFrame(users, columns= ["ID", "Name", "Email", "Age"])
+    df = pd.DataFrame(users, columns=["ID", "Name", "Email", "Age"])
     st.dataframe(df)
 
 elif choice == "Delete User":
@@ -57,9 +61,7 @@ elif choice == "Delete User":
     df = pd.DataFrame(users, columns=["ID", "Name", "Email", "Age"])
     st.dataframe(df)
 
-user_id = st.number_input("Enter ID to delete", 1)
-if st.button("Delete"):
+    user_id = st.number_input("Enter ID to delete", 1, step=1)
+    if st.button("Delete"):
         delete_user(user_id)
-        st.warning(f"User {user_id} deleted!");
-
-
+        st.warning(f"User {user_id} deleted!")
